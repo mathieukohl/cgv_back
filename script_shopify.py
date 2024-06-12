@@ -6,7 +6,6 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
-from webdriver_manager.chrome import ChromeDriverManager
 import time
 
 app = Flask(__name__)
@@ -69,7 +68,7 @@ def submit():
     info = request.json
     urls = [
         "https://www.shopify.com/fr/outils/generateur-de-politique",
-        # "https://www.shopify.com/fr/outils/generateur-de-politique/conditions-generales-de-vente-et-d-utilisation",
+            # "https://www.shopify.com/fr/outils/generateur-de-politique/conditions-generales-de-vente-et-d-utilisation",
         # "https://www.shopify.com/fr/outils/generateur-de-politique/remboursement"
    ]
     
@@ -81,3 +80,4 @@ def submit():
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=True)
+
