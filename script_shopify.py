@@ -10,7 +10,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 import time
 
 app = Flask(__name__)
-CORS(app)  # This will enable CORS for all routes
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Remplir le formulaire Shopify
 def fill_form(url, info):
@@ -64,20 +64,38 @@ def fill_form(url, info):
     time.sleep(5)
     driver.quit()
 
-@app.route('/submit', methods=['POST'])
+# @app.route('/submit', methods=['POST'])
+# def submit():
+#     info = request.json
+#     urls = [
+#         "https://www.shopify.com/fr/outils/generateur-de-politique",
+#         # "https://www.shopify.com/fr/outils/generateur-de-politique/conditions-generales-de-vente-et-d-utilisation",
+#         # "https://www.shopify.com/fr/outils/generateur-de-politique/remboursement"
+#    ]
+    
+#     for url in urls:
+#         fill_form(url, info)
+    
+#     return jsonify({"status": "success"})
+
+# if __name__ == '__main__':
+#     port = int(os.environ.get('PORT', 5000))
+#     app.run(host='0.0.0.0', port=port, debug=True)
+
+@app.route('/submit', methods=['POST', 'OPTIONS'])
 def submit():
+    if request.method == 'OPTIONS':
+        return jsonify({'status': 'OK'}), 200  # Respond to preflight request
+
     info = request.json
     urls = [
         "https://www.shopify.com/fr/outils/generateur-de-politique",
-        # "https://www.shopify.com/fr/outils/generateur-de-politique/conditions-generales-de-vente-et-d-utilisation",
+                # "https://www.shopify.com/fr/outils/generateur-de-politique/conditions-generales-de-vente-et-d-utilisation",
         # "https://www.shopify.com/fr/outils/generateur-de-politique/remboursement"
-   ]
+    ]
     
     for url in urls:
         fill_form(url, info)
     
     return jsonify({"status": "success"})
 
-if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)
