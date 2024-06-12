@@ -3,25 +3,24 @@ from flask_cors import CORS
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 import time
 
 app = Flask(__name__)
-CORS(app)
+CORS(app)  # This will enable CORS for all routes
 
-# Collect user data
-def collect_user_info():
-    info = {}
-    info['company_name'] = input("Nom de l’entreprise : ")
-    info['email'] = input("Adresse e-mail : ")
-    info['address'] = input("Adresse : ")
-    info['city'] = input("Ville : ")
-    info['postal_code'] = input("Code postal : ")
-    info['country'] = input("Pays/Région : ")
-    info['state'] = input("Province/Département/État : ")
-    info['website'] = input("Url de votre site web :")
-    return info
+# # Collect user data
+# def collect_user_info():
+#     info = {}
+#     info['company_name'] = input("Nom de l’entreprise : ")
+#     info['email'] = input("Adresse e-mail : ")
+#     info['address'] = input("Adresse : ")
+#     info['city'] = input("Ville : ")
+#     info['postal_code'] = input("Code postal : ")
+#     info['country'] = input("Pays/Région : ")
+#     info['state'] = input("Province/Département/État : ")
+#     info['website'] = input("Url de votre site web :")
+#     return info
 
 # Fill the Shopify form
 def fill_form(url, info):
