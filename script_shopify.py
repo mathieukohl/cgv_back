@@ -2,9 +2,9 @@ import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains
+from webdriver_manager.chrome import ChromeDriverManager
 import time
 
 app = Flask(__name__)
@@ -27,8 +27,14 @@ def fill_form(url, info):
     chrome_options.add_argument("disable-infobars")
     chrome_options.add_argument("--disable-browser-side-navigation")
     chrome_options.add_argument("--disable-features=VizDisplayCompositor")
+    chrome_options.add_argument("--remote-debugging-port=9222")
 
-    driver = webdriver.Chrome(options=chrome_options)
+    # Set paths for Chrome and ChromeDriver
+    chrome_bin = os.environ.get('GOOGLE_CHROME_BIN', '/app/.apt/usr/bin/google-chrome')
+    chrome_options.binary_location = chrome_bin
+    chromedriver_path = os.environ.get('CHROMEDRIVER_PATH', '/app/.chromedriver/bin/chromedriver')
+
+    driver = webdriver.Chrome(service=ChromeService(executable_path=chromedriver_path), options=chrome_options)
     driver.get(url)
 
     # Remplir les champs
@@ -63,7 +69,7 @@ def submit():
         "https://www.shopify.com/fr/outils/generateur-de-politique",
         # "https://www.shopify.com/fr/outils/generateur-de-politique/conditions-generales-de-vente-et-d-utilisation",
         # "https://www.shopify.com/fr/outils/generateur-de-politique/remboursement"
-    ]
+   ]
     
     for url in urls:
         fill_form(url, info)
