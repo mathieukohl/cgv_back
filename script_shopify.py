@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from selenium import webdriver
@@ -9,20 +10,7 @@ import time
 app = Flask(__name__)
 CORS(app)  # This will enable CORS for all routes
 
-# # Collect user data
-# def collect_user_info():
-#     info = {}
-#     info['company_name'] = input("Nom de l’entreprise : ")
-#     info['email'] = input("Adresse e-mail : ")
-#     info['address'] = input("Adresse : ")
-#     info['city'] = input("Ville : ")
-#     info['postal_code'] = input("Code postal : ")
-#     info['country'] = input("Pays/Région : ")
-#     info['state'] = input("Province/Département/État : ")
-#     info['website'] = input("Url de votre site web :")
-#     return info
-
-# Fill the Shopify form
+# Remplir le formulaire Shopify
 def fill_form(url, info):
     chrome_options = Options()
     chrome_options.add_argument("--headless")  # Enable headless mode
@@ -43,17 +31,17 @@ def fill_form(url, info):
     driver = webdriver.Chrome(options=chrome_options)
     driver.get(url)
 
-    # fill the form
-    driver.find_element(By.NAME, 'user[company_name]').send_keys(info['company_name'])
+    # Remplir les champs
+    driver.find_element(By.NAME, 'user[company_name]').send_keys(info['nom_entreprise'])
     driver.find_element(By.NAME, 'user[email]').send_keys(info['email'])
-    driver.find_element(By.NAME, 'user[address]').send_keys(info['address'])
-    driver.find_element(By.NAME, 'user[city]').send_keys(info['city'])
-    driver.find_element(By.NAME, 'user[zip]').send_keys(info['postal_code'])
-    driver.find_element(By.NAME, 'user[country]').send_keys(info['country'])
-    driver.find_element(By.NAME, 'user[province]').send_keys(info['state'])
+    driver.find_element(By.NAME, 'user[address]').send_keys(info['adresse'])
+    driver.find_element(By.NAME, 'user[city]').send_keys(info['ville'])
+    driver.find_element(By.NAME, 'user[zip]').send_keys(info['code_postal'])
+    driver.find_element(By.NAME, 'user[country]').send_keys(info['pays'])
+    driver.find_element(By.NAME, 'user[province]').send_keys(info['province'])
     driver.find_element(By.NAME, 'website').send_keys(info['website'])
     
-    # Find the submission btn
+    # Trouver et cliquer sur le bouton de soumission
     submit_button = driver.find_element(By.XPATH, '//button[@type="submit"]')
 
     # Scroll to the submit button
@@ -64,7 +52,6 @@ def fill_form(url, info):
     actions = ActionChains(driver)
     actions.move_to_element(submit_button).click().perform()
 
-    
     # Attendre que la page se charge (si nécessaire)
     time.sleep(5)
     driver.quit()
@@ -84,32 +71,5 @@ def submit():
     return jsonify({"status": "success"})
 
 if __name__ == '__main__':
-    app.run(debug=True)
-
-
-# Fonction principale
-# def main():
-#     info = collect_user_info()
-
-#     # info = {
-#     #     'nom_entreprise': 'Nom Test Entreprise',
-#     #     'email': 'mathieukohl@hotmail.com',
-#     #     'adresse': '123 Rue de Test',
-#     #     'ville': 'Ville de Test',
-#     #     'code_postal': '75000',
-#     #     'pays': 'France',
-#     #     'province': 'Île-de-France',
-#     #     'website': 'test.fr'
-#     # }
-
-#     urls = [
-#         "https://www.shopify.com/fr/outils/generateur-de-politique",
-#         "https://www.shopify.com/fr/outils/generateur-de-politique/conditions-generales-de-vente-et-d-utilisation",
-#         "https://www.shopify.com/fr/outils/generateur-de-politique/remboursement"
-#     ]
-    
-#     for url in urls:
-#         fill_form(url, info)
-
-# if __name__ == "__main__":
-#     main()
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)
