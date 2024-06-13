@@ -45,13 +45,13 @@ def fill_form(url, info):
     try:
         # Fill the form fields
         logger.info("Filling form fields")
-        driver.find_element(By.NAME, 'user[company_name]').send_keys(info['nom_entreprise'])
+        driver.find_element(By.NAME, 'user[company_name]').send_keys(info['company_name'])
         driver.find_element(By.NAME, 'user[email]').send_keys(info['email'])
-        driver.find_element(By.NAME, 'user[address]').send_keys(info['adresse'])
-        driver.find_element(By.NAME, 'user[city]').send_keys(info['ville'])
-        driver.find_element(By.NAME, 'user[zip]').send_keys(info['code_postal'])
-        driver.find_element(By.NAME, 'user[country]').send_keys(info['pays'])
-        driver.find_element(By.NAME, 'user[province]').send_keys(info['province'])
+        driver.find_element(By.NAME, 'user[address]').send_keys(info['address'])
+        driver.find_element(By.NAME, 'user[city]').send_keys(info['city'])
+        driver.find_element(By.NAME, 'user[zip]').send_keys(info['postal_code'])
+        driver.find_element(By.NAME, 'user[country]').send_keys(info['country'])
+        driver.find_element(By.NAME, 'user[province]').send_keys(info['state'])
         driver.find_element(By.NAME, 'website').send_keys(info['website'])
 
         # Find and click the submit button
