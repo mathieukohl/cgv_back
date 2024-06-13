@@ -77,6 +77,8 @@ def submit():
     info = request.json
     urls = [
         "https://www.shopify.com/fr/outils/generateur-de-politique",
+        "https://www.shopify.com/fr/outils/generateur-de-politique/conditions-generales-de-vente-et-d-utilisation",
+        "https://www.shopify.com/fr/outils/generateur-de-politique/remboursement"
     ]
     
     for url in urls:
